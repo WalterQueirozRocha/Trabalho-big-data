@@ -42,7 +42,10 @@ CREATE TABLE processo_tratado (
     modalidade_id     SMALLINT      REFERENCES dim_modalidade,
     regiao_id         SMALLINT      REFERENCES dim_regiao,
     sigla_uf          CHAR(2),
+    cidade            VARCHAR(80),
     sigla_instituicao VARCHAR(30),
+    instituicao       VARCHAR(200),
+    pais              VARCHAR(60),
     atendido          BOOLEAN       NOT NULL,
     valor_demandado   NUMERIC(16,2),
     valor_atendido    NUMERIC(16,2)
