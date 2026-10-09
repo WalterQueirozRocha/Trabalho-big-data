@@ -7,7 +7,7 @@ API = "https://wabi-brazil-south-b-primary-api.analysis.windows.net/public/repor
 RESOURCE_KEY = "372d9214-d970-4182-b931-61e6c78d00b1"
 ANOS = range(2019, 2025)
 # Sem NU_PROCESSO: sexo e raça/cor por processo são dados pessoais sensíveis (LGPD).
-COLUNAS = ["ANO_CHAMADA", "DSC_SEXO", "DSC_RACA_COR", "NME_GRANDE_AREA",
+COLUNAS = ["ANO_CHAMADA", "DSC_SEXO", "DSC_RACA_COR", "NME_GRANDE_AREA", "NME_AREA", "SGL_CHAMADA",
            "NME_CHAMADA_MACRO", "NME_MODALIDADE", "SGL_REGIAO"]
 MEDIDAS = ["Propostas Demandadas", "Propostas Atendidas"]
 # Soma direta em R$: as medidas de valor do painel dependem do seletor de moeda e voltam vazias sem ele.
