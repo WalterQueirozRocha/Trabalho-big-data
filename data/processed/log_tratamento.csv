@@ -1,11 +1,45 @@
 etapa,linhas
-painel: combinações extraídas,11201
-painel: recorte 2019-2024,11201
-painel: somente bolsas e auxílios à pesquisa,9157
-painel: combinações com demanda > 0,9157
+painel: combinações extraídas,57656
+painel: grafias padronizadas em chamada,0
+painel: grafias padronizadas em linha_fomento,0
+painel: grafias padronizadas em modalidade,0
+painel: grafias padronizadas em grande_area,0
+painel: grafias padronizadas em area,0
+painel: grafias padronizadas em regiao,0
+painel: grafias padronizadas em sexo,0
+painel: grafias padronizadas em raca_cor,0
+painel: modalidade vazia deduzida pelas outras edições da chamada,2425
+painel: grande área corrigida pela área predominante,16
+painel: recorte 2019-2024,57656
+painel: somente bolsas e auxílios à pesquisa,53340
+painel: combinações com demanda > 0,9173
 csv: linhas lidas,142222
-csv: sem processos duplicados,142222
+csv: sem números de processo repetidos,142222
+csv: grafias padronizadas em chamada,0
+csv: grafias padronizadas em linha_fomento,0
+csv: grafias padronizadas em modalidade,0
+csv: grafias padronizadas em grande_area,0
+csv: grafias padronizadas em area,0
+csv: grafias padronizadas em regiao,0
+csv: grafias padronizadas em instituicao,4
+csv: grafias padronizadas em cidade,33985
+csv: grafias padronizadas em nome_uf,48897
+csv: grafias padronizadas em pais,0
+csv: nome de UF com erro de digitação reconhecido,0
+csv: UF deduzida pelo nome do estado,0
+csv: sigla e nome de UF incoerentes (mantida a sigla),0
+csv: sem UF válida (exterior ou não informada),4580
+csv: região corrigida pela UF,0
+csv: modalidade vazia deduzida pelas outras edições da chamada,14136
+csv: grande área corrigida pela área predominante,1
 csv: recorte 2019-2024,142222
 csv: somente bolsas e auxílios à pesquisa,139999
-csv: valor atendido maior que demandado (mantidos),7864
-csv: combinações agregadas,1398
+csv: siglas de instituição padronizadas,6250
+csv: duplicados exatos removidos (só o número do processo muda),14
+csv: reenvios removidos (mantido o atendido ou o último envio),224
+csv: processos após limpeza,139761
+csv: valor demandado zero tornado nulo,66
+csv: valores com vírgula deslocada corrigidos,1
+csv: valores implausíveis tornados nulos,2
+csv: valor atendido maior que demandado (mantidos),7854
+csv: combinações agregadas,1397
