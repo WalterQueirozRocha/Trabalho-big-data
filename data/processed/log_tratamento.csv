@@ -1,0 +1,11 @@
+etapa,linhas
+painel: combinações extraídas,11201
+painel: recorte 2019-2024,11201
+painel: somente bolsas e auxílios à pesquisa,9157
+painel: combinações com demanda > 0,9157
+csv: linhas lidas,142222
+csv: sem processos duplicados,142222
+csv: recorte 2019-2024,142222
+csv: somente bolsas e auxílios à pesquisa,139999
+csv: valor atendido maior que demandado (mantidos),7864
+csv: combinações agregadas,1398
