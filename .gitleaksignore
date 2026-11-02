@@ -1,0 +1,6 @@
+# RESOURCE_KEY do painel do CNPq em etl/extrair_painel.py.
+# Não é credencial: é a chave pública do relatório Power BI "Publicar na Web",
+# a mesma que aparece no link incorporado da página do painel no gov.br
+# (parâmetro r= do app.powerbi.com/view, em base64). Qualquer visitante a recebe.
+f22f558c827722e6cdcebd98d07384827667b577:etl/extrair_painel.py:generic-api-key:7
+etl/extrair_painel.py:generic-api-key:7

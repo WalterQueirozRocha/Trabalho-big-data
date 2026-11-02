@@ -4,9 +4,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "etl"))
 
-from carregar import DADOS, RAIZ, TABELAS, conectar, database_url
+import pg8000.native
+
+from carregar import DADOS, RAIZ, TABELAS, conectar, configuracao, database_url
 
 CONFIGURADO = (RAIZ / ".env").exists() and (RAIZ / "ca.pem").exists()
+LEITURA = CONFIGURADO and configuracao("DATABASE_URL_LEITURA", obrigatoria=False) is not None
 
 
 @unittest.skipUnless(CONFIGURADO, "sem .env ou ca.pem: banco não configurado")
@@ -45,6 +48,30 @@ class BancoCarregado(unittest.TestCase):
 
     def test_tamanho_dentro_da_meta(self):
         self.assertLess(self.contar("SELECT pg_database_size(current_database())"), 650 * 1024 * 1024)
+
+
+@unittest.skipUnless(LEITURA, "sem DATABASE_URL_LEITURA: usuário de leitura não configurado")
+class UsuarioLeitura(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.conn = conectar(configuracao("DATABASE_URL_LEITURA"))
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.conn.close()
+
+    def test_consegue_ler_tabelas_e_views(self):
+        for objeto in TABELAS + ["vw_diferenca_grupo", "vw_reconciliacao_fontes"]:
+            with self.subTest(objeto=objeto):
+                self.assertGreater(self.conn.run(f"SELECT count(*) FROM {objeto}")[0][0], 0)
+
+    def test_nao_consegue_alterar_dados(self):
+        with self.assertRaises(pg8000.native.DatabaseError):
+            self.conn.run("DELETE FROM dim_regiao")
+
+    def test_nao_consegue_criar_tabela(self):
+        with self.assertRaises(pg8000.native.DatabaseError):
+            self.conn.run("CREATE TABLE teste_invasor (id int)")
 
 
 if __name__ == "__main__":

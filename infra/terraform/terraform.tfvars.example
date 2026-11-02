@@ -1,0 +1,10 @@
+# Copie para terraform.tfvars e ajuste. O terraform.tfvars não é versionado.
+# Não coloque o token aqui: use a variável de ambiente AIVEN_TOKEN.
+
+projeto_aiven = "nome-do-projeto-no-aiven"
+
+# Opcionais (os valores abaixo são os padrões)
+# nome_servico    = "pg-fomento-cnpq"
+# nuvem           = "do-nyc"
+# versao_postgres = "17"
+# ips_liberados   = ["0.0.0.0/0"]

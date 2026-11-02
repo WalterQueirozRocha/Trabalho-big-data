@@ -11,16 +11,32 @@ TABELAS = ["dim_grande_area", "dim_linha_fomento", "dim_modalidade", "dim_regiao
            "fato_atendimento_grupo", "fato_atendimento_csv", "processo_tratado"]
 
 
-def database_url():
-    if "DATABASE_URL" in os.environ:
-        return os.environ["DATABASE_URL"]
+def configuracao(nome, obrigatoria=True):
+    # A variável de ambiente tem prioridade sobre o .env (útil em CI ou num terminal temporário).
+    if os.environ.get(nome):
+        return os.environ[nome]
     env = RAIZ / ".env"
     if env.exists():
         for linha in env.read_text(encoding="utf-8").splitlines():
             chave, _, valor = linha.partition("=")
-            if chave.strip() == "DATABASE_URL":
+            if chave.strip() == nome and valor.strip():
                 return valor.strip()
-    raise SystemExit("Defina DATABASE_URL no ambiente ou no arquivo .env")
+    if obrigatoria:
+        raise SystemExit(f"Defina {nome} no ambiente ou no arquivo .env")
+    return None
+
+
+def database_url():
+    return configuracao("DATABASE_URL")
+
+
+def liberar_leitura(conn, usuario):
+    # O schema é recriado a cada carga, então as permissões precisam ser concedidas de novo.
+    if not conn.run("SELECT 1 FROM pg_roles WHERE rolname = :u", u=usuario):
+        raise SystemExit(f"O usuário {usuario} não existe no banco. Rode o terraform apply antes da carga.")
+    nome = pg8000.native.identifier(usuario)
+    conn.run(f"GRANT USAGE ON SCHEMA public TO {nome}")
+    conn.run(f"GRANT SELECT ON ALL TABLES IN SCHEMA public TO {nome}")
 
 
 def conectar(url):
@@ -47,12 +63,17 @@ def main():
                 colunas = f.readline().strip()
                 f.seek(0)
                 conn.run(f"COPY {tabela} ({colunas}) FROM STDIN WITH (FORMAT csv, HEADER true)", stream=f)
+        usuario_leitura = configuracao("USUARIO_LEITURA", obrigatoria=False)
+        if usuario_leitura:
+            liberar_leitura(conn, usuario_leitura)
         conn.run("COMMIT")
 
         for tabela in TABELAS:
             linhas, tamanho = conn.run(f"SELECT count(*), pg_size_pretty(pg_total_relation_size('{tabela}')) FROM {tabela}")[0]
             print(tabela, linhas, tamanho)
         print("tamanho do banco:", conn.run("SELECT pg_size_pretty(pg_database_size(current_database()))")[0][0])
+        if usuario_leitura:
+            print("leitura liberada para:", usuario_leitura)
     finally:
         conn.close()
 

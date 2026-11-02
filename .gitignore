@@ -1,4 +1,24 @@
+# Credenciais e certificados (gerados pelo Terraform, nunca versionar)
 .env
+.env.*
+!.env.example
 ca.pem
+*.pem
+*.key
+
+# Terraform: o state guarda senhas em texto puro
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+crash.*.log
+*.tfplan
+
+# Python
 .venv/
 __pycache__/
+
+# Base original (100 MB): fica na pasta acima do repositório
+Base_CNPq_Demanda_Atendimento_2019_2024.csv
